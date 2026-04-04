@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Insight</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="top-bar">
+        <h1 data-i18n="extensionName">Tab Insight</h1>
+        <div class="header-right">
+          <div class="lang-switch">
+            <button id="langEN" class="lang-btn">EN</button>
+            <button id="langTR" class="lang-btn">TR</button>
+          </div>
+          <div id="inactiveTabsBadge" class="badge inactive-badge" style="display:none">0 Inactive (15m+)</div>
+          <div id="totalTabsCounter" class="badge">0 Open Tabs</div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Search tabs...">
+        </div>
+        <select id="sortSelect" class="sort-select">
+          <option value="newest" data-i18n="sortNewest">Newest Opened</option>
+          <option value="oldest" data-i18n="sortOldest">Oldest Opened</option>
+          <option value="inactive" data-i18n="sortInactive">Longest Inactive</option>
+        </select>
+        <div class="cleanup-dropdown">
+          <button id="cleanupBtn" class="cleanup-btn" data-i18n-title="cleanupTooltip" title="Cleanup Options">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+          </button>
+          <div id="cleanupMenu" class="dropdown-content">
+            <button id="closeInactiveBtn" class="menu-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9"></path><path d="m8 7 4 4 4-4"></path></svg>
+              <span data-i18n="closeInactive">Close Inactive</span>
+            </button>
+            <button id="closeAllBtn" class="menu-item danger">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              <span data-i18n="closeAll">Close All</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="tabsList">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p data-i18n="syncing">Syncing...</p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-info">
+        <span data-i18n="switchTabs">Click to switch tabs</span>
+      </div>
+      <button id="refreshBtn" class="refresh-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l5.64 5.64A9 9 0 0 0 20.49 15"></path></svg>
+      </button>
+    </footer>
+  </div>
+
+  <!-- Tab Template -->
+  <template id="tabTemplate">
+    <div class="tab-item">
+      <div class="tab-main">
+        <img class="tab-favicon" src="icons/icon16.png" alt="">
+        <div class="tab-info">
+          <h3 class="tab-title">Loading...</h3>
+          <p class="tab-url">Loading...</p>
+        </div>
+        <div class="tab-side-metrics">
+          <div class="metric opened-time" data-i18n-title="openedAt" title="Opened at">--:--</div>
+          <div class="metric inactive-time" data-i18n-title="inactiveFor" title="Inactive for">--:--</div>
+        </div>
+        <div class="tab-actions">
+          <button class="action-btn focus-tab" title="Focus Tab">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </button>
+          <button class="action-btn close-tab" title="Close Tab">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Group Template -->
+  <template id="groupTemplate">
+    <div class="tab-group-container">
+      <div class="group-header">
+        <div class="group-dot"></div>
+        <h2 class="group-title">Group Name</h2>
+        <span class="group-count">0 Tabs</span>
+        <div class="group-actions">
+          <button class="action-btn collapse-group" title="Collapse Group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </div>
+      </div>
+      <div class="group-tabs-list"></div>
+    </div>
+  </template>
+
+  <script src="popup.js"></script>
+</body>
+</html>
