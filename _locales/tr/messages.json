@@ -20,5 +20,19 @@
   "activeNow": { "message": "Aktif" },
   "ungrouped": { "message": "GRUP DIŞI SEKMELER" },
   "untitledGroup": { "message": "Başlıksız Grup" },
-  "tabsCount": { "message": "$count$ Sekme", "placeholders": { "count": { "content": "$1" } } }
+  "tabsCount": { "message": "$count$ Sekme", "placeholders": { "count": { "content": "$1" } } },
+  "suspendInactive": { "message": "Aktif Olmayanları Askıya Al" },
+  "suspendConfirm": { "message": "Bellek tasarrufu için $count$ sekme askıya alınsın mı?", "placeholders": { "count": { "content": "$1" } } },
+  "closeDuplicates": { "message": "Kopyaları Temizle" },
+  "autoGroup": { "message": "Sitelere Göre Gruplandır" },
+  "saveSnapshot": { "message": "Oturumu Kaydet" },
+  "restoreSnapshot": { "message": "Son Oturumu Geri Yükle" },
+  "insightsTitle": { "message": "İstatistikler" },
+  "whitelistTab": { "message": "Beyaz listeye ekle" },
+  "unwhitelistTab": { "message": "Beyaz listeden çıkar" },
+  "suspendedBadge": { "message": "Askıda" },
+  "duplicatedBadge": { "message": "Kopya" },
+  "snapshotSaved": { "message": "Oturum başarıyla kaydedildi!" },
+  "groupsDone": { "message": "Sekmeler domain bazlı gruplandı!" },
+  "groupNamePrompt": { "message": "Gruplar için bir isim girin (site adını kullanmak için boş bırakın):" }
 }

@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     cleanupMenu: document.getElementById('cleanupMenu'),
     closeInactiveBtn: document.getElementById('closeInactiveBtn'),
     closeAllBtn: document.getElementById('closeAllBtn'),
+    suspendInactiveBtn: document.getElementById('suspendInactiveBtn'),
+    closeDuplicatesBtn: document.getElementById('closeDuplicatesBtn'),
+    autoGroupBtn: document.getElementById('autoGroupBtn'),
+    saveSnapshotBtn: document.getElementById('saveSnapshotBtn'),
+    restoreSnapshotBtn: document.getElementById('restoreSnapshotBtn'),
     langEN: document.getElementById('langEN'),
     langTR: document.getElementById('langTR')
   };
@@ -23,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let allTabs = [];
   let creationTimes = {};
   let tabGroups = {};
+  let whitelist = [];
   let currentSort = 'newest';
   let currentMessages = {};
   let currentLang = 'en';
@@ -90,6 +96,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
   };
 
+  const getHostname = (url) => {
+    try {
+      if (!url) return '';
+      if (!url.startsWith('http')) return url.split('/')[0] || '';
+      return new URL(url).hostname;
+    } catch (e) {
+      return '';
+    }
+  };
+
   const updateStats = (tabs) => {
     if (elements.totalTabsCounter) elements.totalTabsCounter.textContent = T('openTabs', [tabs.length.toString()]);
     
@@ -101,9 +117,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         elements.inactiveTabsBadge.style.display = 'block';
         elements.inactiveTabsBadge.textContent = T('inactiveBadgeText', [inactiveCount.toString()]);
         if (elements.closeInactiveBtn) elements.closeInactiveBtn.disabled = false;
+        if (elements.suspendInactiveBtn) elements.suspendInactiveBtn.disabled = false;
       } else {
         elements.inactiveTabsBadge.style.display = 'none';
         if (elements.closeInactiveBtn) elements.closeInactiveBtn.disabled = true;
+        if (elements.suspendInactiveBtn) elements.suspendInactiveBtn.disabled = true;
       }
     }
   };
@@ -118,20 +136,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   const createTabElement = (tab) => {
     const clone = elements.tabTemplate.content.cloneNode(true);
     const tabCard = clone.querySelector('.tab-item');
+    const domain = getHostname(tab.url);
+    const isWhitelisted = whitelist.includes(tab.url) || (domain && whitelist.includes(domain));
+    const isDuplicate = allTabs.filter(t => t.url === tab.url).length > 1;
+
+    if (isWhitelisted) tabCard.classList.add('whitelisted');
+    if (tab.discarded) tabCard.classList.add('is-suspended');
+
     clone.querySelector('.tab-favicon').src = tab.favIconUrl || 'icons/icon16.png';
     clone.querySelector('.tab-favicon').onerror = (e) => e.target.src = 'icons/icon16.png';
     clone.querySelector('.tab-title').textContent = tab.title || 'Untitled';
     clone.querySelector('.tab-url').textContent = tab.url;
+    
+    if (tab.discarded) clone.querySelector('.suspended-badge').style.display = 'block';
+    if (isDuplicate) clone.querySelector('.duplicate-badge').style.display = 'block';
+
     const createdTs = creationTimes[`creationTime_${tab.id}`];
     clone.querySelector('.opened-time').textContent = createdTs ? formatExactTime(createdTs) : '--:--';
     clone.querySelector('.inactive-time').textContent = tab.active ? T('activeNow') : (tab.lastAccessed ? formatTimeAgo(tab.lastAccessed) : T('activeNow'));
+
+    const wBtn = clone.querySelector('.whitelist-tab');
+    if (isWhitelisted) wBtn.classList.add('active');
+    wBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const domain = getHostname(tab.url);
+      if (!domain) return;
+      if (whitelist.includes(domain)) {
+        whitelist = whitelist.filter(i => i !== domain);
+      } else {
+        whitelist.push(domain);
+      }
+      await chrome.storage.local.set({ whitelist });
+      renderTabs(allTabs);
+    });
 
     clone.querySelector('.focus-tab').addEventListener('click', () => {
       chrome.tabs.update(tab.id, { active: true });
       chrome.windows.update(tab.windowId, { focused: true });
     });
 
-    clone.querySelector('.close-tab').addEventListener('click', async () => {
+    clone.querySelector('.close-tab').addEventListener('click', async (e) => {
+      e.stopPropagation();
       await ensureOneTabExists(1);
       chrome.tabs.remove(tab.id);
       tabCard.style.opacity = '0';
@@ -212,6 +257,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       grps.forEach(g => tabGroups[g.id] = g);
       const storage = await chrome.storage.local.get(null);
       creationTimes = storage;
+      whitelist = storage.whitelist || [];
       renderTabs(allTabs);
       updateStats(allTabs);
     } catch (e) {
@@ -244,6 +290,77 @@ document.addEventListener('DOMContentLoaded', async () => {
       await ensureOneTabExists(allTabs.length);
       const ids = allTabs.map(t => t.id);
       await chrome.tabs.remove(ids);
+      init();
+    }
+  });
+
+  elements.suspendInactiveBtn.addEventListener('click', async () => {
+    const now = Date.now();
+    const toSuspend = allTabs.filter(t => {
+      if (t.active || t.discarded) return false;
+      const domain = getHostname(t.url);
+      if (domain && whitelist.includes(domain)) return false;
+      return (now - t.lastAccessed) > CLEANUP_THRESHOLD_MS;
+    });
+
+    if (toSuspend.length > 0 && confirm(T('suspendConfirm', [toSuspend.length.toString()]))) {
+      for (const t of toSuspend) {
+        await chrome.tabs.discard(t.id);
+      }
+      init();
+    }
+  });
+
+  elements.closeDuplicatesBtn.addEventListener('click', async () => {
+    const seen = new Set();
+    const toClose = [];
+    allTabs.forEach(t => {
+      const domain = getHostname(t.url);
+      if (seen.has(t.url) && (!domain || !whitelist.includes(domain))) {
+        toClose.push(t.id);
+      } else {
+        seen.add(t.url);
+      }
+    });
+
+    if (toClose.length > 0 && confirm(T('cleanupConfirm', [toClose.length.toString()]))) {
+      await chrome.tabs.remove(toClose);
+      init();
+    }
+  });
+
+  elements.autoGroupBtn.addEventListener('click', async () => {
+    const domainGroups = {};
+    allTabs.forEach(t => {
+      const domain = getHostname(t.url);
+      if (domain) {
+        if (!domainGroups[domain]) domainGroups[domain] = [];
+        domainGroups[domain].push(t.id);
+      }
+    });
+
+    for (const [domain, ids] of Object.entries(domainGroups)) {
+      if (ids.length > 1) {
+        const groupId = await chrome.tabs.group({ tabIds: ids });
+        await chrome.tabGroups.update(groupId, { title: domain });
+      }
+    }
+    init();
+    alert(T('groupsDone'));
+  });
+
+  elements.saveSnapshotBtn.addEventListener('click', async () => {
+    const snapshot = allTabs.map(t => ({ url: t.url, pinned: t.pinned }));
+    await chrome.storage.local.set({ lastSnapshot: snapshot });
+    alert(T('snapshotSaved'));
+  });
+
+  elements.restoreSnapshotBtn.addEventListener('click', async () => {
+    const storage = await chrome.storage.local.get('lastSnapshot');
+    if (storage.lastSnapshot && storage.lastSnapshot.length > 0) {
+      for (const item of storage.lastSnapshot) {
+        await chrome.tabs.create({ url: item.url, pinned: item.pinned, active: false });
+      }
       init();
     }
   });
