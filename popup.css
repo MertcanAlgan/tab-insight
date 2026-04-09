@@ -27,10 +27,20 @@ body {
   overflow: hidden;
 }
 
+body.is-sidepanel {
+  width: auto;
+  max-height: none;
+  overflow: hidden;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
   height: 600px;
+}
+
+body.is-sidepanel .app-container {
+  height: 100vh;
 }
 
 header {

@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     autoGroupBtn: document.getElementById('autoGroupBtn'),
     saveSnapshotBtn: document.getElementById('saveSnapshotBtn'),
     restoreSnapshotBtn: document.getElementById('restoreSnapshotBtn'),
+    toggleSidePanelModeBtn: document.getElementById('toggleSidePanelModeBtn'),
+    sidePanelModeLabel: document.getElementById('sidePanelModeLabel'),
     langMenuBtn: document.getElementById('langMenuBtn'),
     langMenu: document.getElementById('langMenu'),
     currentLangLabel: document.getElementById('currentLangLabel')
@@ -618,6 +620,62 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
+  const getPreferSidePanel = async () => {
+    const s = await chrome.storage.local.get('preferSidePanel');
+    return !!s.preferSidePanel;
+  };
+
+  const setPreferSidePanel = async (val) => {
+    await chrome.storage.local.set({ preferSidePanel: !!val });
+    // Help background cache update immediately (avoids timing issues on next click).
+    try {
+      chrome.runtime.sendMessage({ type: 'preferSidePanelUpdated', value: !!val });
+    } catch (_) {}
+  };
+
+  const updateSidePanelModeLabel = async () => {
+    if (!elements.sidePanelModeLabel) return;
+    const enabled = await getPreferSidePanel();
+    elements.sidePanelModeLabel.textContent = enabled ? 'Open as popup' : 'Open as side panel';
+  };
+
+  const openSidePanel = async () => {
+    try {
+      if (!chrome.sidePanel) {
+        alert('Side panel not supported in this browser.');
+        return;
+      }
+      const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!activeTab?.id) {
+        alert('Could not determine active tab.');
+        return;
+      }
+
+      // Note: setOptions does NOT accept windowId; it is per-tab (or global) depending on Chrome version.
+      await chrome.sidePanel.setOptions({
+        tabId: activeTab.id,
+        path: 'sidepanel.html',
+        enabled: true
+      });
+
+      // Opening is also scoped; use tabId for best compatibility.
+      await chrome.sidePanel.open({ tabId: activeTab.id });
+    } catch (e) {
+      console.warn('Failed to open side panel', e);
+      alert('Could not open side panel.');
+    }
+  };
+
+  const setActionPopupMode = async (preferSidePanel) => {
+    // If preferSidePanel: disable popup so icon click becomes a user gesture
+    // handled by chrome.action.onClicked in background.
+    try {
+      await chrome.action.setPopup({ popup: preferSidePanel ? '' : 'popup.html' });
+    } catch (e) {
+      console.warn('Failed to set action popup', e);
+    }
+  };
+
   elements.cleanupBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     elements.cleanupMenu.classList.toggle('show');
@@ -718,6 +776,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  if (elements.toggleSidePanelModeBtn) {
+    elements.toggleSidePanelModeBtn.addEventListener('click', async () => {
+      elements.cleanupMenu.classList.remove('show');
+      const current = await getPreferSidePanel();
+      await setPreferSidePanel(!current);
+      await updateSidePanelModeLabel();
+      await setActionPopupMode(!current);
+      // If user just enabled it, open side panel now too.
+      if (!current) {
+        await openSidePanel();
+        window.close();
+      }
+    });
+  }
+
   elements.sortSelect.addEventListener('change', (e) => {
     currentSort = e.target.value;
     renderTabs(allTabs);
@@ -744,5 +817,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const saved = await chrome.storage.local.get('userLang');
   const initialLang = saved.userLang || chrome.i18n.getUILanguage() || 'en';
   await loadLanguage(initialLang);
+  await updateSidePanelModeLabel();
   await init();
 });
