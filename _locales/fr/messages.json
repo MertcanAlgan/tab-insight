@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "Informations détaillées sur vos onglets ouverts, y compris le regroupement, l'heure de création et le suivi de l'inactivité."
+  },
+  "openTabs": {
+    "message": "$count$ onglets ouverts",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "Rechercher des onglets..."
+  },
+  "sortNewest": {
+    "message": "Ouverts récemment"
+  },
+  "sortOldest": {
+    "message": "Anciens"
+  },
+  "sortInactive": {
+    "message": "Inactifs depuis longtemps"
+  },
+  "cleanupTooltip": {
+    "message": "Options de nettoyage"
+  },
+  "closeAll": {
+    "message": "Fermer tous les onglets"
+  },
+  "closeInactive": {
+    "message": "Fermer les onglets inactifs (15m+)"
+  },
+  "closeAllConfirm": {
+    "message": "Voulez-vous vraiment fermer TOUS les onglets ?"
+  },
+  "cleanupConfirm": {
+    "message": "Fermer $count$ onglets inactifs ?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ inactifs (15m+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "Synchronisation..."
+  },
+  "noTabs": {
+    "message": "Aucun onglet trouvé."
+  },
+  "switchTabs": {
+    "message": "Cliquer pour changer d'onglet"
+  },
+  "openedAt": {
+    "message": "Ouvert à"
+  },
+  "inactiveFor": {
+    "message": "Inactif depuis"
+  },
+  "activeNow": {
+    "message": "Actif"
+  },
+  "ungrouped": {
+    "message": "ONGLETS NON REGROUPÉS"
+  },
+  "untitledGroup": {
+    "message": "Groupe sans titre"
+  },
+  "tabsCount": {
+    "message": "$count$ onglets",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "Suspendre les onglets inactifs (15m+)"
+  },
+  "suspendConfirm": {
+    "message": "Suspendre $count$ onglets inactifs pour libérer de la mémoire ?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "Fermer les doublons"
+  },
+  "autoGroup": {
+    "message": "Grouper par domaine"
+  },
+  "saveSnapshot": {
+    "message": "Enregistrer un instantané"
+  },
+  "restoreSnapshot": {
+    "message": "Restaurer le dernier instantané"
+  },
+  "insightsTitle": {
+    "message": "Statistiques"
+  },
+  "whitelistTab": {
+    "message": "Ajouter à la liste blanche"
+  },
+  "unwhitelistTab": {
+    "message": "Retirer de la liste blanche"
+  },
+  "suspendedBadge": {
+    "message": "Suspendu"
+  },
+  "duplicatedBadge": {
+    "message": "Doublon"
+  },
+  "snapshotSaved": {
+    "message": "Instantané enregistré avec succès !"
+  },
+  "groupsDone": {
+    "message": "Onglets groupés par domaine !"
+  },
+  "groupNamePrompt": {
+    "message": "Nom du groupe (laisser vide pour le nom du site) :"
+  }
+}

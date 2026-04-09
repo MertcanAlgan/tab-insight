@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "그룹화, 생성 시간 및 비활성 추적을 포함하여 열려 있는 탭에 대한 상세 정보."
+  },
+  "openTabs": {
+    "message": "$count$개의 열린 탭",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "탭 검색..."
+  },
+  "sortNewest": {
+    "message": "최신순"
+  },
+  "sortOldest": {
+    "message": "오래된순"
+  },
+  "sortInactive": {
+    "message": "비활성 긴 순"
+  },
+  "cleanupTooltip": {
+    "message": "정리 옵션"
+  },
+  "closeAll": {
+    "message": "모든 탭 닫기"
+  },
+  "closeInactive": {
+    "message": "비활성 탭 닫기 (15분+)"
+  },
+  "closeAllConfirm": {
+    "message": "정말로 모든 탭을 닫으시겠습니까?"
+  },
+  "cleanupConfirm": {
+    "message": "$count$개의 비활성 탭을 닫으시겠습니까?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$개 비활성 (15분+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "동기화 중..."
+  },
+  "noTabs": {
+    "message": "탭을 찾을 수 없습니다."
+  },
+  "switchTabs": {
+    "message": "클릭하여 탭 전환"
+  },
+  "openedAt": {
+    "message": "열린 시간"
+  },
+  "inactiveFor": {
+    "message": "비활성 시간"
+  },
+  "activeNow": {
+    "message": "활성"
+  },
+  "ungrouped": {
+    "message": "그룹화되지 않은 탭"
+  },
+  "untitledGroup": {
+    "message": "제목 없는 그룹"
+  },
+  "tabsCount": {
+    "message": "$count$개의 탭",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "비활성 탭 절전 (15분+)"
+  },
+  "suspendConfirm": {
+    "message": "메모리 확보를 위해 $count$개의 비활성 탭을 절전 모드로 전환할까요?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "중복 탭 닫기"
+  },
+  "autoGroup": {
+    "message": "도메인별 자동 그룹화"
+  },
+  "saveSnapshot": {
+    "message": "스냅샷 저장"
+  },
+  "restoreSnapshot": {
+    "message": "최신 스냅샷 복원"
+  },
+  "insightsTitle": {
+    "message": "통계"
+  },
+  "whitelistTab": {
+    "message": "화이트리스트에 추가"
+  },
+  "unwhitelistTab": {
+    "message": "화이트리스트에서 제거"
+  },
+  "suspendedBadge": {
+    "message": "절전 중"
+  },
+  "duplicatedBadge": {
+    "message": "중복"
+  },
+  "snapshotSaved": {
+    "message": "스냅샷이 성공적으로 저장되었습니다!"
+  },
+  "groupsDone": {
+    "message": "탭이 도메인별로 그룹화되었습니다!"
+  },
+  "groupNamePrompt": {
+    "message": "그룹 이름 입력 (사이트 이름을 사용하려면 비워 두세요):"
+  }
+}

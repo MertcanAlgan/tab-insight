@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "رؤى مفصلة حول علامات التبويب المفتوحة لديك بما في ذلك التجميع ووقت الإنشاء وتتبع عدم النشاط."
+  },
+  "openTabs": {
+    "message": "$count$ علامات تبويب مفتوحة",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "بحث في علامات التبويب..."
+  },
+  "sortNewest": {
+    "message": "الأحدث"
+  },
+  "sortOldest": {
+    "message": "الأقدم"
+  },
+  "sortInactive": {
+    "message": "الأقل نشاطاً"
+  },
+  "cleanupTooltip": {
+    "message": "خيارات التنظيف"
+  },
+  "closeAll": {
+    "message": "إغلاق الكل"
+  },
+  "closeInactive": {
+    "message": "إغلاق غير النشطة (15 دقيقة+)"
+  },
+  "closeAllConfirm": {
+    "message": "هل أنت متأكد من إغلاق جميع علامات التبويب؟"
+  },
+  "cleanupConfirm": {
+    "message": "إغلاق $count$ علامة تبويب غير نشطة؟",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ غير نشطة (15 دقيقة+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "جاري المزامنة..."
+  },
+  "noTabs": {
+    "message": "لم يتم العثور على علامات تبويب."
+  },
+  "switchTabs": {
+    "message": "انقر للتبديل بين علامات التبويب"
+  },
+  "openedAt": {
+    "message": "تم الفتح في"
+  },
+  "inactiveFor": {
+    "message": "غير نشط منذ"
+  },
+  "activeNow": {
+    "message": "نشط"
+  },
+  "ungrouped": {
+    "message": "علامات تبويب غير مجمعة"
+  },
+  "untitledGroup": {
+    "message": "مجموعة بدون عنوان"
+  },
+  "tabsCount": {
+    "message": "$count$ علامات تبويب",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "تعليق غير النشطة (15 دقيقة+)"
+  },
+  "suspendConfirm": {
+    "message": "تعليق $count$ علامة تبويب غير نشطة لتوفير الذاكرة؟",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "إغلاق المكرر"
+  },
+  "autoGroup": {
+    "message": "تجميع تلقائي حسب النطاق"
+  },
+  "saveSnapshot": {
+    "message": "حفظ لقطة"
+  },
+  "restoreSnapshot": {
+    "message": "استعادة آخر لقطة"
+  },
+  "insightsTitle": {
+    "message": "الإحصائيات"
+  },
+  "whitelistTab": {
+    "message": "إضافة للقائمة البيضاء"
+  },
+  "unwhitelistTab": {
+    "message": "إزالة من القائمة البيضاء"
+  },
+  "suspendedBadge": {
+    "message": "معلق"
+  },
+  "duplicatedBadge": {
+    "message": "مكرر"
+  },
+  "snapshotSaved": {
+    "message": "تم حفظ اللقطة بنجاح!"
+  },
+  "groupsDone": {
+    "message": "تم تجميع علامات التبويب حسب النطاق!"
+  },
+  "groupNamePrompt": {
+    "message": "أدخل اسماً للمجموعات (اتركه فارغاً لاسم الموقع):"
+  }
+}

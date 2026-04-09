@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "आपकी खुली हुई टैब के बारे में विस्तृत जानकारी, जिसमें समूह बनाना, निर्माण का समय और निष्क्रियता ट्रैकिंग शामिल है।"
+  },
+  "openTabs": {
+    "message": "$count$ खुली हुई टैब",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "टैब खोजें..."
+  },
+  "sortNewest": {
+    "message": "सबसे नई"
+  },
+  "sortOldest": {
+    "message": "सबसे पुरानी"
+  },
+  "sortInactive": {
+    "message": "सबसे लंबे समय से निष्क्रिय"
+  },
+  "cleanupTooltip": {
+    "message": "सफ़ाई विकल्प"
+  },
+  "closeAll": {
+    "message": "सभी टैब बंद करें"
+  },
+  "closeInactive": {
+    "message": "निष्क्रिय टैब बंद करें (15m+)"
+  },
+  "closeAllConfirm": {
+    "message": "क्या आप वाकई सभी टैब बंद करना चाहते हैं?"
+  },
+  "cleanupConfirm": {
+    "message": "$count$ निष्क्रिय टैब बंद करें?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ निष्क्रिय (15m+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "सिंक हो रहा है..."
+  },
+  "noTabs": {
+    "message": "कोई टैब नहीं मिला।"
+  },
+  "switchTabs": {
+    "message": "टैब बदलने के लिए क्लिक करें"
+  },
+  "openedAt": {
+    "message": "खुला समय"
+  },
+  "inactiveFor": {
+    "message": "निष्क्रिय समय"
+  },
+  "activeNow": {
+    "message": "सक्रिय"
+  },
+  "ungrouped": {
+    "message": "बिना समूह वाली टैब"
+  },
+  "untitledGroup": {
+    "message": "बिना शीर्षक वाला समूह"
+  },
+  "tabsCount": {
+    "message": "$count$ टैब",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "निष्क्रिय टैब को सस्पेंड करें (15m+)"
+  },
+  "suspendConfirm": {
+    "message": "मेमोरी खाली करने के लिए $count$ निष्क्रिय टैब को सस्पेंड करें?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "डुप्लिकेट टैब बंद करें"
+  },
+  "autoGroup": {
+    "message": "डोमेन द्वारा ऑटो-ग्रुप"
+  },
+  "saveSnapshot": {
+    "message": "स्नैपशॉट सहेजें"
+  },
+  "restoreSnapshot": {
+    "message": "नवीनतम स्नैपशॉट को पुनर्स्थापित करें"
+  },
+  "insightsTitle": {
+    "message": "सांख्यिकी"
+  },
+  "whitelistTab": {
+    "message": "श्वेतसूची में जोड़ें"
+  },
+  "unwhitelistTab": {
+    "message": "श्वेतसूची से हटाएं"
+  },
+  "suspendedBadge": {
+    "message": "सस्पेंड"
+  },
+  "duplicatedBadge": {
+    "message": "डुप्लिकेट"
+  },
+  "snapshotSaved": {
+    "message": "स्नैपशॉट सफलतापूर्वक सहेजा गया!"
+  },
+  "groupsDone": {
+    "message": "टैब डोमेन द्वारा समूहित किए गए!"
+  },
+  "groupNamePrompt": {
+    "message": "समूहों के लिए एक नाम दर्ज करें (साइट नाम के लिए खाली छोड़ें):"
+  }
+}

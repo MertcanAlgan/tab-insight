@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "Detaillierte Einblicke in Ihre geöffneten Tabs, einschließlich Gruppierung, Erstellungszeit und Inaktivitätsverfolgung."
+  },
+  "openTabs": {
+    "message": "$count$ offene Tabs",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "Tabs suchen..."
+  },
+  "sortNewest": {
+    "message": "Zuletzt geöffnet"
+  },
+  "sortOldest": {
+    "message": "Zuerst geöffnet"
+  },
+  "sortInactive": {
+    "message": "Am längsten inaktiv"
+  },
+  "cleanupTooltip": {
+    "message": "Bereinigungsoptionen"
+  },
+  "closeAll": {
+    "message": "Alle Tabs schließen"
+  },
+  "closeInactive": {
+    "message": "Inaktive Tabs schließen (15m+)"
+  },
+  "closeAllConfirm": {
+    "message": "Sind Sie sicher, dass Sie ALLE Tabs schließen möchten?"
+  },
+  "cleanupConfirm": {
+    "message": "$count$ inaktive Tabs schließen?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ inaktiv (15m+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "Synchronisierung..."
+  },
+  "noTabs": {
+    "message": "Keine Tabs gefunden."
+  },
+  "switchTabs": {
+    "message": "Klicken, um Tabs zu wechseln"
+  },
+  "openedAt": {
+    "message": "Geöffnet um"
+  },
+  "inactiveFor": {
+    "message": "Inaktiv seit"
+  },
+  "activeNow": {
+    "message": "Aktiv"
+  },
+  "ungrouped": {
+    "message": "NICHT GRUPPIERTE TABS"
+  },
+  "untitledGroup": {
+    "message": "Unbenannte Gruppe"
+  },
+  "tabsCount": {
+    "message": "$count$ Tabs",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "Inaktive Tabs anhalten (15m+)"
+  },
+  "suspendConfirm": {
+    "message": "$count$ inaktive Tabs anhalten, um Speicher freizugeben?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "Duplikate schließen"
+  },
+  "autoGroup": {
+    "message": "Nach Domain gruppieren"
+  },
+  "saveSnapshot": {
+    "message": "Snapshot speichern"
+  },
+  "restoreSnapshot": {
+    "message": "Letzten Snapshot wiederherstellen"
+  },
+  "insightsTitle": {
+    "message": "Statistiken"
+  },
+  "whitelistTab": {
+    "message": "Auf die Whitelist setzen"
+  },
+  "unwhitelistTab": {
+    "message": "Von der Whitelist entfernen"
+  },
+  "suspendedBadge": {
+    "message": "Angehalten"
+  },
+  "duplicatedBadge": {
+    "message": "Duplikat"
+  },
+  "snapshotSaved": {
+    "message": "Snapshot erfolgreich gespeichert!"
+  },
+  "groupsDone": {
+    "message": "Tabs nach Domain gruppiert!"
+  },
+  "groupNamePrompt": {
+    "message": "Gruppennamen eingeben (leer lassen für Website-Namen):"
+  }
+}

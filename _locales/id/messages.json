@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "Wawasan mendalam tentang tab yang Anda buka, termasuk pengelompokan, waktu pembuatan, dan pelacakan ketidakaktifan."
+  },
+  "openTabs": {
+    "message": "$count$ Tab Terbuka",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "Cari tab..."
+  },
+  "sortNewest": {
+    "message": "Terbaru Dibuka"
+  },
+  "sortOldest": {
+    "message": "Terlama Dibuka"
+  },
+  "sortInactive": {
+    "message": "Tidak Aktif Terlama"
+  },
+  "cleanupTooltip": {
+    "message": "Opsi Pembersihan"
+  },
+  "closeAll": {
+    "message": "Tutup Semua Tab"
+  },
+  "closeInactive": {
+    "message": "Tutup Tab Tidak Aktif (15m+)"
+  },
+  "closeAllConfirm": {
+    "message": "Apakah Anda yakin ingin menutup SEMUA tab?"
+  },
+  "cleanupConfirm": {
+    "message": "Tutup $count$ tab tidak aktif?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ Tidak Aktif (15m+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "Sinkronisasi..."
+  },
+  "noTabs": {
+    "message": "Tidak ada tab ditemukan."
+  },
+  "switchTabs": {
+    "message": "Klik untuk beralih tab"
+  },
+  "openedAt": {
+    "message": "Dibuka pada"
+  },
+  "inactiveFor": {
+    "message": "Tidak aktif selama"
+  },
+  "activeNow": {
+    "message": "Aktif"
+  },
+  "ungrouped": {
+    "message": "TAB TIDAK TERKELOMPOK"
+  },
+  "untitledGroup": {
+    "message": "Grup Tanpa Judul"
+  },
+  "tabsCount": {
+    "message": "$count$ Tab",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "Tidurkan Tab Tidak Aktif (15m+)"
+  },
+  "suspendConfirm": {
+    "message": "Tidurkan $count$ tab tidak aktif untuk membebaskan memori?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "Tutup Tab Duplikat"
+  },
+  "autoGroup": {
+    "message": "Kelompokkan Otomatis menurut Domain"
+  },
+  "saveSnapshot": {
+    "message": "Simpan Snapshot"
+  },
+  "restoreSnapshot": {
+    "message": "Pulihkan Snapshot Terbaru"
+  },
+  "insightsTitle": {
+    "message": "Statistik"
+  },
+  "whitelistTab": {
+    "message": "Tambahkan ke daftar putih"
+  },
+  "unwhitelistTab": {
+    "message": "Hapus dari daftar putih"
+  },
+  "suspendedBadge": {
+    "message": "Ditidurkan"
+  },
+  "duplicatedBadge": {
+    "message": "Duplikat"
+  },
+  "snapshotSaved": {
+    "message": "Snapshot berhasil disimpan!"
+  },
+  "groupsDone": {
+    "message": "Tab dikelompokkan menurut domain!"
+  },
+  "groupNamePrompt": {
+    "message": "Nama grup (kosongkan untuk nama situs):"
+  }
+}

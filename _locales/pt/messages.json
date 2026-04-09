@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "Detailed insights into your open tabs including grouping, creation time, and inactivity tracking."
+  },
+  "openTabs": {
+    "message": "$count$ Open Tabs",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "Search tabs..."
+  },
+  "sortNewest": {
+    "message": "Newest Opened"
+  },
+  "sortOldest": {
+    "message": "Oldest Opened"
+  },
+  "sortInactive": {
+    "message": "Longest Inactive"
+  },
+  "cleanupTooltip": {
+    "message": "Cleanup options"
+  },
+  "closeAll": {
+    "message": "Close All Tabs"
+  },
+  "closeInactive": {
+    "message": "Close Inactive Tabs (15m+)"
+  },
+  "closeAllConfirm": {
+    "message": "Are you sure you want to close ALL tabs?"
+  },
+  "cleanupConfirm": {
+    "message": "Close $count$ inactive tabs?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ Inactive (15m+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "Syncing..."
+  },
+  "noTabs": {
+    "message": "No tabs found."
+  },
+  "switchTabs": {
+    "message": "Click to switch tabs"
+  },
+  "openedAt": {
+    "message": "Opened at"
+  },
+  "inactiveFor": {
+    "message": "Inactive for"
+  },
+  "activeNow": {
+    "message": "Active"
+  },
+  "ungrouped": {
+    "message": "UNGROUPED TABS"
+  },
+  "untitledGroup": {
+    "message": "Untitled Group"
+  },
+  "tabsCount": {
+    "message": "$count$ Tabs",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "Suspend Inactive Tabs (15m+)"
+  },
+  "suspendConfirm": {
+    "message": "Suspend $count$ inactive tabs to free up memory?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "Close Duplicate Tabs"
+  },
+  "autoGroup": {
+    "message": "Auto-Group by Domain"
+  },
+  "saveSnapshot": {
+    "message": "Save Snapshot"
+  },
+  "restoreSnapshot": {
+    "message": "Restore Latest Snapshot"
+  },
+  "insightsTitle": {
+    "message": "Statistics"
+  },
+  "whitelistTab": {
+    "message": "Whitelist this tab"
+  },
+  "unwhitelistTab": {
+    "message": "Remove from whitelist"
+  },
+  "suspendedBadge": {
+    "message": "Suspended"
+  },
+  "duplicatedBadge": {
+    "message": "Duplicate"
+  },
+  "snapshotSaved": {
+    "message": "Snapshot saved successfully!"
+  },
+  "groupsDone": {
+    "message": "Tabs grouped by domain!"
+  },
+  "groupNamePrompt": {
+    "message": "Enter a custom name for the groups (leave empty for site name):"
+  }
+}

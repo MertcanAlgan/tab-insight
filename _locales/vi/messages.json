@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "Thông tin chi tiết về các tab đang mở, bao gồm nhóm, thời gian tạo và theo dõi hoạt động."
+  },
+  "openTabs": {
+    "message": "$count$ tab đang mở",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "Tìm kiếm tab..."
+  },
+  "sortNewest": {
+    "message": "Mở gần đây"
+  },
+  "sortOldest": {
+    "message": "Mở cũ nhất"
+  },
+  "sortInactive": {
+    "message": "Không hoạt động lâu nhất"
+  },
+  "cleanupTooltip": {
+    "message": "Tùy chọn dọn dẹp"
+  },
+  "closeAll": {
+    "message": "Đóng tất cả tab"
+  },
+  "closeInactive": {
+    "message": "Đóng tab không hoạt động (15p+)"
+  },
+  "closeAllConfirm": {
+    "message": "Bạn có chắc chắn muốn đóng TẤT CẢ các tab không?"
+  },
+  "cleanupConfirm": {
+    "message": "Đóng $count$ tab không hoạt động?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ không hoạt động (15p+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "Đang đồng bộ..."
+  },
+  "noTabs": {
+    "message": "Không tìm thấy tab nào."
+  },
+  "switchTabs": {
+    "message": "Nhấp để chuyển tab"
+  },
+  "openedAt": {
+    "message": "Mở lúc"
+  },
+  "inactiveFor": {
+    "message": "Không hoạt động trong"
+  },
+  "activeNow": {
+    "message": "Đang hoạt động"
+  },
+  "ungrouped": {
+    "message": "TAB CHƯA PHÂN NHÓM"
+  },
+  "untitledGroup": {
+    "message": "Nhóm chưa đặt tên"
+  },
+  "tabsCount": {
+    "message": "$count$ tab",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "Tạm dừng tab không hoạt động (15p+)"
+  },
+  "suspendConfirm": {
+    "message": "Tạm dừng $count$ tab không hoạt động để giải phóng bộ nhớ?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "Đóng tab trùng lặp"
+  },
+  "autoGroup": {
+    "message": "Tự động nhóm theo tên miền"
+  },
+  "saveSnapshot": {
+    "message": "Lưu ảnh chụp"
+  },
+  "restoreSnapshot": {
+    "message": "Khôi phục ảnh chụp mới nhất"
+  },
+  "insightsTitle": {
+    "message": "Thống kê"
+  },
+  "whitelistTab": {
+    "message": "Thêm vào danh sách trắng"
+  },
+  "unwhitelistTab": {
+    "message": "Xóa khỏi danh sách trắng"
+  },
+  "suspendedBadge": {
+    "message": "Đã tạm dừng"
+  },
+  "duplicatedBadge": {
+    "message": "Trùng lặp"
+  },
+  "snapshotSaved": {
+    "message": "Lưu ảnh chụp thành công!"
+  },
+  "groupsDone": {
+    "message": "Đã nhóm các tab theo tên miền!"
+  },
+  "groupNamePrompt": {
+    "message": "Nhập tên nhóm (để trống nếu dùng tên trang web):"
+  }
+}

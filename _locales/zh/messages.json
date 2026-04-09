@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "标详情 (Tab Insight)"
+  },
+  "extensionDesc": {
+    "message": "深入了解打开的标签页，包括分组、创建时间和不活动跟踪。"
+  },
+  "openTabs": {
+    "message": "$count$ 个打开的标签页",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "搜索标签页..."
+  },
+  "sortNewest": {
+    "message": "最新打开"
+  },
+  "sortOldest": {
+    "message": "最早打开"
+  },
+  "sortInactive": {
+    "message": "最久未活动"
+  },
+  "cleanupTooltip": {
+    "message": "清理选项"
+  },
+  "closeAll": {
+    "message": "关闭所有标签页"
+  },
+  "closeInactive": {
+    "message": "关闭不活动标签页 (15分钟+)"
+  },
+  "closeAllConfirm": {
+    "message": "您确定要关闭所有标签页吗？"
+  },
+  "cleanupConfirm": {
+    "message": "关闭 $count$ 个不活动标签页？",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ 个不活动 (15分钟+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "同步中..."
+  },
+  "noTabs": {
+    "message": "未找到标签页。"
+  },
+  "switchTabs": {
+    "message": "点击切换标签页"
+  },
+  "openedAt": {
+    "message": "打开于"
+  },
+  "inactiveFor": {
+    "message": "不活动时间"
+  },
+  "activeNow": {
+    "message": "活动中"
+  },
+  "ungrouped": {
+    "message": "未分组标签页"
+  },
+  "untitledGroup": {
+    "message": "未命名分组"
+  },
+  "tabsCount": {
+    "message": "$count$ 个标签页",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "挂起不活动标签页 (15分钟+)"
+  },
+  "suspendConfirm": {
+    "message": "挂起 $count$ 个不活动标签页以释放内存？",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "关闭重复标签页"
+  },
+  "autoGroup": {
+    "message": "按域自动分组"
+  },
+  "saveSnapshot": {
+    "message": "保存快照"
+  },
+  "restoreSnapshot": {
+    "message": "恢复最新快照"
+  },
+  "insightsTitle": {
+    "message": "统计数据"
+  },
+  "whitelistTab": {
+    "message": "加入白名单"
+  },
+  "unwhitelistTab": {
+    "message": "从白名单移除"
+  },
+  "suspendedBadge": {
+    "message": "已挂起"
+  },
+  "duplicatedBadge": {
+    "message": "重复"
+  },
+  "snapshotSaved": {
+    "message": "快照保存成功！"
+  },
+  "groupsDone": {
+    "message": "标签页已按域分组！"
+  },
+  "groupNamePrompt": {
+    "message": "输入分组自定义名称（留空则使用网站名称）："
+  }
+}

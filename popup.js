@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     tabsList: document.getElementById('tabsList'),
     searchInput: document.getElementById('searchInput'),
     refreshBtn: document.getElementById('refreshBtn'),
+    mediaPanel: document.getElementById('mediaPanel'),
+    mediaList: document.getElementById('mediaList'),
+    mediaEmpty: document.getElementById('mediaEmpty'),
+    mediaSubtitle: document.getElementById('mediaSubtitle'),
     totalTabsCounter: document.getElementById('totalTabsCounter'),
     inactiveTabsBadge: document.getElementById('inactiveTabsBadge'),
     tabTemplate: document.getElementById('tabTemplate'),
@@ -21,9 +25,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     autoGroupBtn: document.getElementById('autoGroupBtn'),
     saveSnapshotBtn: document.getElementById('saveSnapshotBtn'),
     restoreSnapshotBtn: document.getElementById('restoreSnapshotBtn'),
-    langEN: document.getElementById('langEN'),
-    langTR: document.getElementById('langTR')
+    langMenuBtn: document.getElementById('langMenuBtn'),
+    langMenu: document.getElementById('langMenu'),
+    currentLangLabel: document.getElementById('currentLangLabel')
   };
+
+  const LANGUAGES = [
+    { code: 'en', name: 'English' },
+    { code: 'tr', name: 'Türkçe' },
+    { code: 'zh', name: '简体中文' },
+    { code: 'es', name: 'Español' },
+    { code: 'hi', name: 'हिन्दी' },
+    { code: 'fr', name: 'Français' },
+    { code: 'ar', name: 'العربية' },
+    { code: 'bn', name: 'বাংলা' },
+    { code: 'pt', name: 'Português' },
+    { code: 'ru', name: 'Русский' },
+    { code: 'ur', name: 'اردو' },
+    { code: 'id', name: 'Bahasa Indonesia' },
+    { code: 'de', name: 'Deutsch' },
+    { code: 'ja', name: '日本語' },
+    { code: 'mr', name: 'मराठी' },
+    { code: 'te', name: 'తెలుగు' },
+    { code: 'ta', name: 'தமிழ்' },
+    { code: 'vi', name: 'Tiếng Việt' },
+    { code: 'tl', name: 'Filipino' },
+    { code: 'ko', name: '한국어' },
+    { code: 'it', name: 'Italiano' }
+  ];
 
   let allTabs = [];
   let creationTimes = {};
@@ -39,18 +68,337 @@ document.addEventListener('DOMContentLoaded', async () => {
     green: "#81c995", pink: "#ff8bcb", purple: "#d7aefb", cyan: "#78d9eb", orange: "#fcad70"
   };
 
+  const formatExecuteScriptError = (e) => {
+    try {
+      if (!e) return 'Unknown error';
+      if (typeof e === 'string') return e;
+      if (e instanceof Error) return e.message || String(e);
+      if (typeof e.message === 'string') return e.message;
+      return JSON.stringify(e);
+    } catch (_) {
+      return String(e);
+    }
+  };
+
+  const safeExecuteInTab = async (tabId, func, args = []) => {
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId },
+        func,
+        args
+      });
+      return true;
+    } catch (e) {
+      console.warn('executeScript failed', {
+        tabId,
+        error: formatExecuteScriptError(e),
+        raw: e
+      });
+      return false;
+    }
+  };
+
+  const executeInTabResult = async (tabId, func, args = []) => {
+    try {
+      const res = await chrome.scripting.executeScript({
+        target: { tabId },
+        func,
+        args
+      });
+      return res?.[0]?.result ?? null;
+    } catch (e) {
+      console.warn('executeScript failed', {
+        tabId,
+        error: formatExecuteScriptError(e),
+        raw: e
+      });
+      return null;
+    }
+  };
+
+  const mediaTogglePlayPauseInPage = () => {
+    const els = Array.from(document.querySelectorAll('audio, video'));
+    let acted = false;
+    for (const el of els) {
+      if (!el) continue;
+      try {
+        if (el.paused) {
+          const p = el.play?.();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } else {
+          el.pause?.();
+        }
+        acted = true;
+      } catch (_) {}
+    }
+    return acted;
+  };
+
+  const mediaSetVolumeInPage = (volume01) => {
+    const v = Math.max(0, Math.min(1, Number(volume01)));
+    const els = Array.from(document.querySelectorAll('audio, video'));
+    let acted = false;
+    for (const el of els) {
+      if (!el) continue;
+      try {
+        el.volume = v;
+        acted = true;
+      } catch (_) {}
+    }
+    return acted;
+  };
+
+  const mediaGetVolumeInPage = () => {
+    const el = document.querySelector('audio, video');
+    const v = el && typeof el.volume === 'number' ? el.volume : null;
+    return v;
+  };
+
+  const mediaHasPlayingInPage = () => {
+    const els = Array.from(document.querySelectorAll('audio, video'));
+    for (const el of els) {
+      try {
+        if (!el) continue;
+        // Heuristic: playing if not paused and has data
+        if (!el.paused && !el.ended && (el.readyState || 0) >= 2) return true;
+      } catch (_) {}
+    }
+    return false;
+  };
+
+  const renderMediaTabs = async () => {
+    if (!elements.mediaList || !elements.mediaEmpty) return;
+    try {
+      // Note: `audible` is the best signal, but can miss tabs (muted or some players).
+      // We augment it by probing for actively playing <audio>/<video>.
+      const all = await chrome.tabs.query({});
+      const candidates = all.filter(t =>
+        typeof t.id === 'number' &&
+        t.url &&
+        !t.url.startsWith('chrome://') &&
+        !t.url.startsWith('chrome-extension://')
+      );
+
+      const audibleTabs = candidates.filter(t => t.audible);
+      const maybePlayingTabs = candidates.filter(t => !t.audible);
+
+      // Probe non-audible tabs for HTML media playback (best effort).
+      const playingResults = await Promise.all(
+        maybePlayingTabs.map(async (t) => ({
+          tab: t,
+          playing: await executeInTabResult(t.id, mediaHasPlayingInPage, [])
+        }))
+      );
+
+      const playingTabs = playingResults
+        .filter(r => r.playing === true)
+        .map(r => r.tab);
+
+      const dedup = new Map();
+      [...audibleTabs, ...playingTabs].forEach(t => dedup.set(t.id, t));
+      const mediaTabs = Array.from(dedup.values())
+        .sort((a, b) => (creationTimes[`creationTime_${b.id}`] || 0) - (creationTimes[`creationTime_${a.id}`] || 0));
+
+      elements.mediaList.innerHTML = '';
+
+      if (mediaTabs.length === 0) {
+        // Hide the entire panel when nothing is playing
+        if (elements.mediaPanel) elements.mediaPanel.style.display = 'none';
+        return;
+      }
+      if (elements.mediaPanel) elements.mediaPanel.style.display = 'block';
+      elements.mediaEmpty.style.display = 'none';
+      if (elements.mediaSubtitle) {
+        elements.mediaSubtitle.textContent = `${mediaTabs.length} tab`;
+      }
+
+      for (const tab of mediaTabs) {
+        const item = document.createElement('div');
+        item.className = 'media-item';
+
+        const btnClose = document.createElement('button');
+        btnClose.className = 'media-close-btn';
+        btnClose.title = 'Close tab';
+        btnClose.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+        btnClose.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await ensureOneTabExists(1);
+          await chrome.tabs.remove(tab.id);
+          await renderMediaTabs();
+          await init();
+        });
+
+        const left = document.createElement('div');
+        left.className = 'media-left';
+
+        const fav = document.createElement('img');
+        fav.className = 'media-favicon';
+        fav.src = tab.favIconUrl || 'icons/icon16.png';
+        fav.alt = '';
+        fav.onerror = (e) => (e.target.src = 'icons/icon16.png');
+
+        const title = document.createElement('div');
+        title.className = 'media-tab-title';
+        title.textContent = tab.title || 'Untitled';
+        title.title = tab.url || tab.title || '';
+        title.addEventListener('click', async () => {
+          await chrome.tabs.update(tab.id, { active: true });
+          await chrome.windows.update(tab.windowId, { focused: true });
+        });
+
+        left.appendChild(fav);
+        left.appendChild(title);
+
+        const muted = !!tab.mutedInfo?.muted;
+        const mutedChip = document.createElement('div');
+        mutedChip.className = 'media-muted-indicator';
+        mutedChip.textContent = muted ? 'MUTED' : 'LIVE';
+
+        const flashChip = (text) => {
+          const prev = mutedChip.textContent;
+          mutedChip.textContent = text;
+          setTimeout(() => {
+            // Keep in sync if tab state changed meanwhile
+            mutedChip.textContent = muted ? 'MUTED' : 'LIVE';
+          }, 1200);
+        };
+
+        // Volume (0-100). Try to read from page; fallback to stored per-tab or 100.
+        let initialVol = 100;
+        try {
+          const key = `mediaVol_${tab.id}`;
+          const stored = await chrome.storage.local.get(key);
+          if (typeof stored[key] === 'number') initialVol = stored[key];
+          const v01 = await executeInTabResult(tab.id, mediaGetVolumeInPage, []);
+          if (typeof v01 === 'number' && Number.isFinite(v01)) {
+            initialVol = Math.round(Math.max(0, Math.min(1, v01)) * 100);
+          }
+        } catch (_) {
+          // ignore; keep fallback
+        }
+
+        const volWrap = document.createElement('div');
+        volWrap.className = 'media-volume';
+        volWrap.title = 'Volume';
+        volWrap.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+        `;
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.min = '0';
+        slider.max = '100';
+        slider.step = '1';
+        slider.value = String(initialVol);
+        slider.setAttribute('aria-label', 'Volume');
+        slider.addEventListener('input', async (e) => {
+          e.stopPropagation();
+          const v = Number(slider.value);
+          const key = `mediaVol_${tab.id}`;
+          await chrome.storage.local.set({ [key]: v });
+          const acted = await executeInTabResult(tab.id, mediaSetVolumeInPage, [v / 100]);
+          if (acted === false) {
+            // Page has no HTMLMediaElement audio/video, or it blocked access
+            flashChip('NO MEDIA');
+          } else if (acted === null) {
+            // injection failed (restricted page, permissions, etc.)
+            flashChip('BLOCKED');
+          }
+        });
+        volWrap.appendChild(slider);
+
+        const controls = document.createElement('div');
+        controls.className = 'media-controls';
+
+        const muteWrap = document.createElement('div');
+        muteWrap.className = 'media-mute-wrap';
+
+        const btnMute = document.createElement('button');
+        btnMute.className = 'media-btn';
+        btnMute.title = muted ? 'Unmute tab' : 'Mute tab';
+        btnMute.innerHTML = muted
+          ? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M23 9l-6 6"></path><path d="M17 9l6 6"></path></svg>`
+          : `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>`;
+        btnMute.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await chrome.tabs.update(tab.id, { muted: !muted });
+          await renderMediaTabs();
+        });
+
+        // Show volume only on hover/focus of mute button area
+        muteWrap.appendChild(btnMute);
+        muteWrap.appendChild(volWrap);
+
+        // Some popup environments are flaky with pure :hover; mirror it with JS.
+        muteWrap.addEventListener('mouseenter', () => muteWrap.classList.add('show-volume'));
+        muteWrap.addEventListener('mouseleave', () => muteWrap.classList.remove('show-volume'));
+        muteWrap.addEventListener('focusin', () => muteWrap.classList.add('show-volume'));
+        muteWrap.addEventListener('focusout', () => muteWrap.classList.remove('show-volume'));
+
+        const btnToggle = document.createElement('button');
+        btnToggle.className = 'media-btn';
+        btnToggle.title = 'Play/Pause';
+        btnToggle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>`;
+        btnToggle.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await safeExecuteInTab(tab.id, mediaTogglePlayPauseInPage, []);
+        });
+
+        controls.appendChild(muteWrap);
+        controls.appendChild(btnToggle);
+
+        item.appendChild(btnClose);
+        item.appendChild(left);
+        item.appendChild(mutedChip);
+        item.appendChild(controls);
+
+        elements.mediaList.appendChild(item);
+      }
+    } catch (e) {
+      console.warn('Failed to render media tabs', e);
+      elements.mediaList.innerHTML = '';
+      elements.mediaEmpty.style.display = 'block';
+      elements.mediaEmpty.textContent = 'Media panel unavailable';
+    }
+  };
+
+  const populateLangMenu = () => {
+    if (!elements.langMenu) return;
+    elements.langMenu.innerHTML = '';
+    LANGUAGES.forEach(lang => {
+      const btn = document.createElement('button');
+      btn.className = `menu-item lang-item ${currentLang === lang.code ? 'active' : ''}`;
+      btn.innerHTML = `
+        <span>${lang.name}</span>
+        <span class="lang-code">${lang.code}</span>
+      `;
+      btn.addEventListener('click', () => {
+        loadLanguage(lang.code);
+        elements.langMenu.classList.remove('show');
+      });
+      elements.langMenu.appendChild(btn);
+    });
+  };
+
   const loadLanguage = async (lang) => {
-    const code = lang.startsWith('tr') ? 'tr' : 'en';
+    // Try to find the closest match or fallback to 'en'
+    let code = LANGUAGES.find(l => lang.startsWith(l.code))?.code || 'en';
     try {
       const resp = await fetch(chrome.runtime.getURL(`_locales/${code}/messages.json`));
       currentMessages = await resp.json();
       currentLang = code;
-      elements.langEN.classList.toggle('active', code === 'en');
-      elements.langTR.classList.toggle('active', code === 'tr');
+      
+      if (elements.currentLangLabel) {
+        elements.currentLangLabel.textContent = code.toUpperCase();
+      }
+      
       await chrome.storage.local.set({ userLang: code });
       localize();
+      populateLangMenu();
       if (allTabs.length > 0) { renderTabs(allTabs); updateStats(allTabs); }
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+      console.error(`Failed to load language: ${code}`, e);
+      if (code !== 'en') loadLanguage('en');
+    }
   };
 
   const T = (key, placeholders = []) => {
@@ -136,6 +484,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const createTabElement = (tab) => {
     const clone = elements.tabTemplate.content.cloneNode(true);
     const tabCard = clone.querySelector('.tab-item');
+    const tabMain = clone.querySelector('.tab-main');
     const domain = getHostname(tab.url);
     const isWhitelisted = whitelist.includes(tab.url) || (domain && whitelist.includes(domain));
     const isDuplicate = allTabs.filter(t => t.url === tab.url).length > 1;
@@ -170,10 +519,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderTabs(allTabs);
     });
 
-    clone.querySelector('.focus-tab').addEventListener('click', () => {
+    // Focus tab by clicking the row (except action buttons which stopPropagation)
+    const focus = () => {
       chrome.tabs.update(tab.id, { active: true });
       chrome.windows.update(tab.windowId, { focused: true });
-    });
+    };
+    if (tabMain) tabMain.addEventListener('click', focus);
+    else tabCard.addEventListener('click', focus);
 
     clone.querySelector('.close-tab').addEventListener('click', async (e) => {
       e.stopPropagation();
@@ -260,6 +612,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       whitelist = storage.whitelist || [];
       renderTabs(allTabs);
       updateStats(allTabs);
+      await renderMediaTabs();
     } catch (e) {
       if (elements.tabsList) elements.tabsList.innerHTML = `<div class="error">${e.message}</div>`;
     }
@@ -377,8 +730,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   elements.refreshBtn.addEventListener('click', init);
-  elements.langEN.addEventListener('click', () => loadLanguage('en'));
-  elements.langTR.addEventListener('click', () => loadLanguage('tr'));
+  
+  elements.langMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    elements.langMenu.classList.toggle('show');
+    elements.cleanupMenu.classList.remove('show');
+  });
+
+  document.addEventListener('click', () => {
+    elements.langMenu.classList.remove('show');
+  });
 
   const saved = await chrome.storage.local.get('userLang');
   const initialLang = saved.userLang || chrome.i18n.getUILanguage() || 'en';

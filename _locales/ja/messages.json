@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "グループ化、作成時間、非アクティブ追跡など、開いているタブに関する詳細なインサイト。"
+  },
+  "openTabs": {
+    "message": "$count$ 個の開いているタブ",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "タブを検索..."
+  },
+  "sortNewest": {
+    "message": "新しい順"
+  },
+  "sortOldest": {
+    "message": "古い順"
+  },
+  "sortInactive": {
+    "message": "非アクティブが長い順"
+  },
+  "cleanupTooltip": {
+    "message": "クリーンアップ オプション"
+  },
+  "closeAll": {
+    "message": "すべてのタブを閉じる"
+  },
+  "closeInactive": {
+    "message": "非アクティブなタブを閉じる (15分以上)"
+  },
+  "closeAllConfirm": {
+    "message": "本当にすべてのタブを閉じますか？"
+  },
+  "cleanupConfirm": {
+    "message": "$count$ 個の非アクティブなタブを閉じますか？",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "$count$ 個の非アクティブ (15分以上)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "同期中..."
+  },
+  "noTabs": {
+    "message": "タブが見つかりません。"
+  },
+  "switchTabs": {
+    "message": "クリックしてタブを切り替え"
+  },
+  "openedAt": {
+    "message": "開始時刻"
+  },
+  "inactiveFor": {
+    "message": "非アクティブ期間"
+  },
+  "activeNow": {
+    "message": "アクティブ"
+  },
+  "ungrouped": {
+    "message": "未グループ化のタブ"
+  },
+  "untitledGroup": {
+    "message": "無題のグループ"
+  },
+  "tabsCount": {
+    "message": "$count$ 個のタブ",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "非アクティブなタブを休止 (15分以上)"
+  },
+  "suspendConfirm": {
+    "message": "メモリを解放するために $count$ 個のタブを休止しますか？",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "重複したタブを閉じる"
+  },
+  "autoGroup": {
+    "message": "ドメインで自動グループ化"
+  },
+  "saveSnapshot": {
+    "message": "スナップショットを保存"
+  },
+  "restoreSnapshot": {
+    "message": "最新のスナップショットを復元"
+  },
+  "insightsTitle": {
+    "message": "統計"
+  },
+  "whitelistTab": {
+    "message": "ホワイトリストに追加"
+  },
+  "unwhitelistTab": {
+    "message": "ホワイトリストから削除"
+  },
+  "suspendedBadge": {
+    "message": "休止中"
+  },
+  "duplicatedBadge": {
+    "message": "重複"
+  },
+  "snapshotSaved": {
+    "message": "スナップショットを保存しました！"
+  },
+  "groupsDone": {
+    "message": "タブをドメインごとにグループ化しました！"
+  },
+  "groupNamePrompt": {
+    "message": "グループ名を入力（サイト名を使用する場合は空欄）："
+  }
+}

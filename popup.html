@@ -15,9 +15,14 @@
       <div class="top-bar">
         <h1 data-i18n="extensionName">Tab Insight</h1>
         <div class="header-right">
-          <div class="lang-switch">
-            <button id="langEN" class="lang-btn">EN</button>
-            <button id="langTR" class="lang-btn">TR</button>
+          <div class="lang-dropdown">
+            <button id="langMenuBtn" class="lang-btn-main">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span id="currentLangLabel">EN</span>
+            </button>
+            <div id="langMenu" class="dropdown-content">
+              <!-- Populated by JS -->
+            </div>
           </div>
           <div id="inactiveTabsBadge" class="badge inactive-badge" style="display:none">0 Inactive (15m+)</div>
           <div id="totalTabsCounter" class="badge">0 Open Tabs</div>
@@ -28,17 +33,18 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Search tabs...">
         </div>
-        <select id="sortSelect" class="sort-select">
-          <option value="newest" data-i18n="sortNewest">Newest Opened</option>
-          <option value="oldest" data-i18n="sortOldest">Oldest Opened</option>
-          <option value="inactive" data-i18n="sortInactive">Longest Inactive</option>
-        </select>
-        <div class="cleanup-dropdown">
-          <button id="cleanupBtn" class="cleanup-btn" data-i18n-title="cleanupTooltip" title="Cleanup Options">
+        <div class="toolbar-row">
+          <select id="sortSelect" class="sort-select">
+            <option value="newest" data-i18n="sortNewest">Newest Opened</option>
+            <option value="oldest" data-i18n="sortOldest">Oldest Opened</option>
+            <option value="inactive" data-i18n="sortInactive">Longest Inactive</option>
+          </select>
+          <div class="cleanup-dropdown">
+            <button id="cleanupBtn" class="cleanup-btn" data-i18n-title="cleanupTooltip" title="Cleanup Options">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
-          </button>
-          <div id="cleanupMenu" class="dropdown-content">
-            <button id="suspendInactiveBtn" class="menu-item">
+            </button>
+            <div id="cleanupMenu" class="dropdown-content">
+              <button id="suspendInactiveBtn" class="menu-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
               <span data-i18n="suspendInactive">Suspend Inactive</span>
             </button>
@@ -71,6 +77,7 @@
             </button>
           </div>
         </div>
+        </div>
       </div>
     </header>
 
@@ -82,12 +89,24 @@
     </main>
 
     <footer>
-      <div class="footer-info">
-        <span data-i18n="switchTabs">Click to switch tabs</span>
+      <div class="footer-row">
+        <div class="footer-info">
+          <span data-i18n="switchTabs">Click to switch tabs</span>
+        </div>
+        <button id="refreshBtn" class="refresh-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l5.64 5.64A9 9 0 0 0 20.49 15"></path></svg>
+        </button>
       </div>
-      <button id="refreshBtn" class="refresh-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l5.64 5.64A9 9 0 0 0 20.49 15"></path></svg>
-      </button>
+
+      <!-- Media Panel (under refresh) -->
+      <section id="mediaPanel" class="media-panel" aria-label="Now playing">
+        <div class="media-header">
+          <div class="media-title">Now playing</div>
+          <div id="mediaSubtitle" class="media-subtitle">Audio/video tabs</div>
+        </div>
+        <div id="mediaList" class="media-list"></div>
+        <div id="mediaEmpty" class="media-empty">No audible tabs</div>
+      </section>
     </footer>
   </div>
 
@@ -111,9 +130,6 @@
         <div class="tab-actions">
           <button class="action-btn whitelist-tab" data-i18n-title="whitelistTab" title="Whitelist this tab">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-          </button>
-          <button class="action-btn focus-tab" title="Focus Tab">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </button>
           <button class="action-btn close-tab" title="Close Tab">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

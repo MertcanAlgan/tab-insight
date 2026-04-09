@@ -1,0 +1,135 @@
+{
+  "extensionName": {
+    "message": "Tab Insight"
+  },
+  "extensionDesc": {
+    "message": "Подробная информация об открытых вкладках, включая группировку, время создания и отслеживание неактивности."
+  },
+  "openTabs": {
+    "message": "Открыто вкладок: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchPlaceholder": {
+    "message": "Поиск вкладок..."
+  },
+  "sortNewest": {
+    "message": "Сначала новые"
+  },
+  "sortOldest": {
+    "message": "Сначала старые"
+  },
+  "sortInactive": {
+    "message": "Самые неактивные"
+  },
+  "cleanupTooltip": {
+    "message": "Опции очистки"
+  },
+  "closeAll": {
+    "message": "Закрыть все вкладки"
+  },
+  "closeInactive": {
+    "message": "Закрыть неактивные (15м+)"
+  },
+  "closeAllConfirm": {
+    "message": "Вы уверены, что хотите закрыть ВСЕ вкладки?"
+  },
+  "cleanupConfirm": {
+    "message": "Закрыть $count$ неактивных вкладок?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "inactiveBadgeText": {
+    "message": "Неактивно: $count$ (15м+)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncing": {
+    "message": "Синхронизация..."
+  },
+  "noTabs": {
+    "message": "Вкладки не найдены."
+  },
+  "switchTabs": {
+    "message": "Нажмите, чтобы переключиться"
+  },
+  "openedAt": {
+    "message": "Открыто в"
+  },
+  "inactiveFor": {
+    "message": "Неактивно уже"
+  },
+  "activeNow": {
+    "message": "Активно"
+  },
+  "ungrouped": {
+    "message": "ВКЛАДКИ БЕЗ ГРУППЫ"
+  },
+  "untitledGroup": {
+    "message": "Группа без названия"
+  },
+  "tabsCount": {
+    "message": "Вкладок: $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "suspendInactive": {
+    "message": "Приостановить неактивные (15м+)"
+  },
+  "suspendConfirm": {
+    "message": "Приостановить $count$ вкладок для экономии памяти?",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "closeDuplicates": {
+    "message": "Закрыть дубликаты"
+  },
+  "autoGroup": {
+    "message": "Группировать по доменам"
+  },
+  "saveSnapshot": {
+    "message": "Сохранить снимок"
+  },
+  "restoreSnapshot": {
+    "message": "Восстановить последний снимок"
+  },
+  "insightsTitle": {
+    "message": "Статистика"
+  },
+  "whitelistTab": {
+    "message": "Добавить в белый список"
+  },
+  "unwhitelistTab": {
+    "message": "Удалить из белого списка"
+  },
+  "suspendedBadge": {
+    "message": "Приостановлено"
+  },
+  "duplicatedBadge": {
+    "message": "Дубликат"
+  },
+  "snapshotSaved": {
+    "message": "Снимок успешно сохранен!"
+  },
+  "groupsDone": {
+    "message": "Вкладки сгруппированы по доменам!"
+  },
+  "groupNamePrompt": {
+    "message": "Введите имя группы (пусто для названия сайта):"
+  }
+}
